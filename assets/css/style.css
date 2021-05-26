@@ -27,26 +27,25 @@ header {
     justify-content: space-evenly;
 }
 
-aside {
-    background-color: var(--pale-cerulean);
-    border: 2px solid var(--pale-cerulean);
-}
-
 form.index-search-form {
     position: relative;
     display: inline;
     background-color: var(--bdazzled-blue);
 }
 
+button {
+    color: var(--bdazzled-blue);
+}
+
 button[name="submit"] {
     position: absolute;
     top: 0;
     right: 0;
+    margin: 2px;
 }
 
 input.search-box {
     width: 200px;
-    font-family: FontAwesome;
     padding: 2px 0;
 }
 
@@ -79,13 +78,13 @@ ul li {
     display: flex;
     flex-direction: column;
     background-color: var(--bdazzled-blue);
+    border: 2px solid var(--pale-cerulean);
 }
 
 .main-container {
     grid-area: main;
     display: flex;
     justify-content: center;
-
     background-color: var(--pale-cerulean);
 }
 
@@ -97,7 +96,7 @@ ul li {
     font-size: 1.25em;
 }
 
-.five-card {
+.five-card-container {
     grid-area: section;
     display: block;
     background-color: var(--bdazzled-blue);
@@ -126,28 +125,28 @@ ul li {
 .low {
     background-color: green;
     color: var(--pale-cerulean);
+    padding: 1px 3px;
 }
 
 .moderate {
     background-color: yellow;
     color: var(--bdazzled-blue);
+    padding: 1px 3px;
 }
 
 .high {
     background-color: orange;
     color: var(--pale-cerulean);
+    padding: 1px 3px;
 }
 
 .veryHigh {
     background-color: red;
     color: var(--pale-cerulean);
+    padding: 1px 3px;
 }
 
 #icon-main {
     width: 250px;
     height: auto;
-}
-
-button {
-    color: var(--bdazzled-blue);
 }
