@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <script defer src="./assets/js/script.js"></script>
+    <title>Weather Dashboard</title>
+</head>
+
+<body>
+    <div class="grid-container">
+        <header>
+            <h1>Weather Dashboard</h1>
+            <h2 id='date'></h2>
+        </header>
+        <aside class='search-container'>
+            <form action="search.php" method="post" class="index-search-form" onsubmit="return false;">
+                <input name="search" type="text" class="search-box" placeholder="&#xf002;  Enter a city name">
+                <button name="submit" class="search-btn" type="button">Search</button>
+            </form>
+            <ul>
+            </ul>
+            <button name="reset" class="clear-btn hidden" type="reset">Clear</button>
+        </aside>
+        <main class='main-container hidden'>
+            <div class='main-card'>
+                <h2 id='cityName'>Atlanta</h2>
+                <p id='temp-main'>Temp: </p>
+                <p id='wind-main'>Wind: </p>
+                <p id='humid-main'>Humidity: </p>
+                <p id='uvi-main'>UV Index: </p>
+            </div>
+            <img id='icon-main' src=''>
+        </main>
+        <article class="five-card hidden">
+            <h3>5-Day Forecast</h3>
+            <div class='card-container'>
+                <section class="card">
+                    <h4 id='date-0'>Date</h4>
+                    <img id='icon-0'>
+                    <p id='temp-0'>Temp: </p>
+                    <p id='humid-0'>Humidity: </p>
+                </section>
+                <section class="card">
+                    <h4 id='date-1'>Date</h4>
+                    <img id='icon-1'>
+                    <p id='temp-1'>Temp: </p>
+                    <p id='humid-1'>Humidity: </p>
+                </section>
+                <section class="card">
+                    <h4 id='date-2'>Date</h4>
+                    <img id='icon-2'>
+                    <p id='temp-2'>Temp: </p>
+                    <p id='humid-2'>Humidity: </p>
+                </section>
+                <section class="card">
+                    <h4 id='date-3'>Date</h4>
+                    <img id='icon-3'>
+                    <p id='temp-3'>Temp: </p>
+                    <p id='humid-3'>Humidity: </p>
+                </section>
+                <section class="card">
+                    <h4 id='date-4'>Date</h4>
+                    <img id='icon-4'>
+                    <p id='temp-4'>Temp: </p>
+                    <p id='humid-4'>Humidity: </p>
+                </section>
+            </div>
+        </article>
+    </div>
+</body>
+
+</html>
