@@ -91,7 +91,7 @@ const renderWeatherMain = (weatherData) => {
 }
 
 const renderWeatherFive = (weatherData) => {
-    let weatherNoon = weatherData.list.filter(item => item.dt_txt.includes('00:00:00'));
+    let weatherNoon = weatherData.list.filter(item => item.dt_txt.includes('12:00:00'));
 
     for (let i = 0; i < 5; i++) {
         let icon = weatherNoon[i].weather[0].icon;
