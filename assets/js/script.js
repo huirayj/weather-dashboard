@@ -26,8 +26,8 @@ const submitHandler = (e) => {
 
     mainEle.classList.remove('hidden');
     articleEle.classList.remove('hidden');
-    // && !cityList.includes(cityName)
-    if (cityName) {
+    
+    if (cityName && !cityList.includes(cityName)) {
         cityNameEle.textContent = cityName;
         ulEle.appendChild(liEle);
         liEle.textContent = cityName;
