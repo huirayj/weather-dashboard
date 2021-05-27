@@ -16,41 +16,7 @@ const mainUviEle = document.querySelector('#uvi-main');
 const mainIconEle = document.querySelector('#icon-main');
 
 let currentDate = new Date();
-let cityList = [];
-
-const getWeatherData = (cityName) => {
-    let key = '4f728aead6452710e67cf962fa16f0bb';
-    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${key}`;
-
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(weatherData => {
-            let lat = weatherData.coord.lat;
-            let lon = weatherData.coord.lon;
-            let apiUrlOne = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&exclude={minutely, hourly}&appid=${key}`;
-
-            fetch(apiUrlOne)
-                .then(response => response.json())
-                .then(weatherDataOne => {
-                    renderWeatherMain(weatherDataOne);
-                })
-                .catch(error => console.log(error));
-        })
-        .catch(error => console.log(error));
-}
-
-const getWeatherFiveData = (cityName) => {
-    let key = '4f728aead6452710e67cf962fa16f0bb';
-    let apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&units=imperial&appid=${key}`;
-    console.log(apiUrl);
-
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(weatherData => {
-            renderWeatherFive(weatherData);
-        })
-        .catch(error => console.log(error));
-}
+let cityList = JSON.parse(localStorage.getItem('cityList')) || [];
 
 const submitHandler = (e) => {
     e.preventDefault;
@@ -60,17 +26,52 @@ const submitHandler = (e) => {
 
     mainEle.classList.remove('hidden');
     articleEle.classList.remove('hidden');
-
-    if (cityName && !cityList.includes(cityName)) {
+    // && !cityList.includes(cityName)
+    if (cityName) {
         cityNameEle.textContent = cityName;
         ulEle.appendChild(liEle);
         liEle.textContent = cityName;
         cityList.push(cityName);
+        cityList = [...new Set(cityList)];
         clearBtnEle.classList.remove('hidden');
+        localStorage.setItem('cityList', JSON.stringify(cityList));
 
         getWeatherData(cityName);
         getWeatherFiveData(cityName);
     }
+}
+
+const getWeatherData = (cityName) => {
+    let key = '4f728aead6452710e67cf962fa16f0bb';
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${key}`;
+    
+    fetch(apiUrl)
+    .then(response => response.json())
+    .then(weatherData => {
+        let lat = weatherData.coord.lat;
+        let lon = weatherData.coord.lon;
+        let apiUrlOne = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&exclude={minutely, hourly}&appid=${key}`;
+        
+        fetch(apiUrlOne)
+        .then(response => response.json())
+        .then(weatherDataOne => {
+            renderWeatherMain(weatherDataOne);
+        })
+        .catch(error => console.log(error));
+    })
+    .catch(error => console.log(error));
+}
+
+const getWeatherFiveData = (cityName) => {
+    let key = '4f728aead6452710e67cf962fa16f0bb';
+    let apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&units=imperial&appid=${key}`;
+    
+    fetch(apiUrl)
+    .then(response => response.json())
+    .then(weatherData => {
+        renderWeatherFive(weatherData);
+    })
+        .catch(error => console.log(error));
 }
 
 const renderWeatherMain = (weatherData) => {
@@ -139,16 +140,29 @@ const clearList = () => {
     articleEle.classList.add('hidden');
 }
 
+const renderTodoList = () => {
+    ulEle.innerHTML = '';
+    let str = '';
+    cityList.forEach(item => {
+        str += `<li>${item}</li>`;
+    });
+    ulEle.innerHTML = str;
+}
+
 window.onload = setCurrentDate;
+window.onload = renderTodoList;
 searchBtnEle.addEventListener('click', submitHandler);
 clearBtnEle.addEventListener('click', clearList);
 document.addEventListener('click', (e) => {
     if (e.target.tagName === 'LI') {
         let cityName = e.target.textContent;
-
         cityNameEle.textContent = cityName;
+
+        mainEle.classList.remove('hidden');
+        articleEle.classList.remove('hidden');
 
         getWeatherData(cityName);
         getWeatherFiveData(cityName);
     }
 });
+

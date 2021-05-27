@@ -13,6 +13,7 @@ In this exercise, the user is tasked with creating an application that takes in 
 ## Resources
 - https://openweathermap.org/api
 - https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
 
 ## Screenshots
 - 
