@@ -1,21 +1,21 @@
 const searchBtnEle = document.querySelector('.search-btn');
 const clearBtnEle = document.querySelector('.clear-btn')
+const inputEle = document.querySelector('.search-box');
 const ulEle = document.querySelector('ul');
 const liEle = document.querySelector('li');
-const cityNameEle = document.querySelector('#cityName');
+
 const dateEle = document.querySelector('#date');
-const inputEle = document.querySelector('.search-box');
-const userFormEle = document.querySelector('.index-search-form');
 const mainEle = document.querySelector('main');
 const articleEle = document.querySelector('article');
 
+const cityNameEle = document.querySelector('#cityName');
 const mainTempEle = document.querySelector('#temp-main');
 const mainWindEle = document.querySelector('#wind-main');
 const mainHumidEle = document.querySelector('#humid-main');
 const mainUviEle = document.querySelector('#uvi-main');
 const mainIconEle = document.querySelector('#icon-main');
 
-let currentDate = new Date();
+const currentDate = new Date();
 let cityList = JSON.parse(localStorage.getItem('cityList')) || [];
 
 const submitHandler = (e) => {
@@ -24,16 +24,18 @@ const submitHandler = (e) => {
     let cityName = capitalize(inputEle.value.trim());
     const liEle = document.createElement('li');
 
-    mainEle.classList.remove('hidden');
-    articleEle.classList.remove('hidden');
-    
     if (cityName && !cityList.includes(cityName)) {
         cityNameEle.textContent = cityName;
-        ulEle.appendChild(liEle);
         liEle.textContent = cityName;
+        ulEle.appendChild(liEle);
+
         cityList.push(cityName);
         cityList = [...new Set(cityList)];
+
+        mainEle.classList.remove('hidden');
+        articleEle.classList.remove('hidden');
         clearBtnEle.classList.remove('hidden');
+
         localStorage.setItem('cityList', JSON.stringify(cityList));
 
         getWeatherData(cityName);
@@ -42,45 +44,41 @@ const submitHandler = (e) => {
 }
 
 const getWeatherData = (cityName) => {
-    let key = '4f728aead6452710e67cf962fa16f0bb';
+    const key = '4f728aead6452710e67cf962fa16f0bb';
     let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${key}`;
-    
+
     fetch(apiUrl)
-    .then(response => response.json())
-    .then(weatherData => {
-        let lat = weatherData.coord.lat;
-        let lon = weatherData.coord.lon;
-        let apiUrlOne = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&exclude={minutely, hourly}&appid=${key}`;
-        
-        fetch(apiUrlOne)
         .then(response => response.json())
-        .then(weatherDataOne => {
-            renderWeatherMain(weatherDataOne);
+        .then(weatherData => {
+            let lat = weatherData.coord.lat;
+            let lon = weatherData.coord.lon;
+            let apiUrlOne = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&exclude={minutely, hourly}&appid=${key}`;
+
+            fetch(apiUrlOne)
+                .then(response => response.json())
+                .then(weatherDataOne => renderWeatherMain(weatherDataOne))
+                .catch(error => console.log(error));
         })
         .catch(error => console.log(error));
-    })
-    .catch(error => console.log(error));
 }
 
 const getWeatherFiveData = (cityName) => {
-    let key = '4f728aead6452710e67cf962fa16f0bb';
+    const key = '4f728aead6452710e67cf962fa16f0bb';
     let apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&units=imperial&appid=${key}`;
-    
+
     fetch(apiUrl)
-    .then(response => response.json())
-    .then(weatherData => {
-        renderWeatherFive(weatherData);
-    })
+        .then(response => response.json())
+        .then(weatherData => renderWeatherFive(weatherData))
         .catch(error => console.log(error));
 }
 
 const renderWeatherMain = (weatherData) => {
-    let current = weatherData.current;
-    let temp = Math.round(current.temp);
-    let humid = current.humidity;
-    let wind = current.wind_speed;
-    let uvi = current.uvi;
-    let icon = current.weather[0].icon;
+    const current = weatherData.current;
+    const temp = Math.round(current.temp);
+    const humid = current.humidity;
+    const wind = current.wind_speed;
+    const uvi = current.uvi;
+    const icon = current.weather[0].icon;
 
     mainTempEle.textContent = `Temp: ${temp} °F`;
     mainHumidEle.textContent = `Humidity: ${humid}%`;
@@ -95,8 +93,8 @@ const renderWeatherFive = (weatherData) => {
     let weatherNoon = weatherData.list.filter(item => item.dt_txt.includes('12:00:00'));
 
     for (let i = 0; i < 5; i++) {
-        let icon = weatherNoon[i].weather[0].icon;
-        let nextDay = new Date()
+        const icon = weatherNoon[i].weather[0].icon;
+        const nextDay = new Date()
         nextDay.setDate(currentDate.getDate() + i + 1);
 
         document.querySelector(`#date-${i}`).textContent = nextDay.toDateString();
@@ -144,13 +142,15 @@ const renderTodoList = () => {
     ulEle.innerHTML = '';
     let str = '';
     cityList.forEach(item => {
-        str += `<li>${item}</li>`;
+        str += `<li>${item}</li>`
     });
     ulEle.innerHTML = str;
 }
 
-window.onload = setCurrentDate;
-window.onload = renderTodoList;
+window.onload = () => {
+    setCurrentDate();
+    renderTodoList();
+};
 searchBtnEle.addEventListener('click', submitHandler);
 clearBtnEle.addEventListener('click', clearList);
 document.addEventListener('click', (e) => {
