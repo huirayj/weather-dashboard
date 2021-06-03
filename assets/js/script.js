@@ -145,6 +145,7 @@ const renderTodoList = () => {
         str += `<li>${item}</li>`
     });
     ulEle.innerHTML = str;
+    cityList && clearBtnEle.classList.remove('hidden');
 }
 
 window.onload = () => {
