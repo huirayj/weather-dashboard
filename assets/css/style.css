@@ -29,8 +29,9 @@ header {
 
 form.index-search-form {
     position: relative;
-    display: inline;
+    display: flex;
     background-color: var(--bdazzled-blue);
+    /* padding: 10px; */
 }
 
 button {
@@ -43,14 +44,18 @@ button[name="submit"] {
     position: absolute;
     top: 0;
     right: 0;
-    /* margin: 2px; */
-    /* padding: 2px; */
+    padding: 0px;
+    margin-left: 0px;
 }
 
 input.search-box {
     width: 100%;
     padding: 2px 0;
     margin: 2px;
+    flex-grow: 2;
+    border: none;
+    box-sizing: border-box;
+    padding-left: 8px;
 }
 
 ul {
@@ -68,6 +73,12 @@ ul li {
     font-weight: bold;
 }
 
+ul li:hover {
+    background-color: var(--gunmetal);
+    color: var(--burnt-sienna);
+    cursor: pointer;
+}
+
 .grid-container {
     display: grid;
     grid-template-areas: 'header header header' 'search main main' 'search section section';
@@ -83,7 +94,7 @@ ul li {
     display: flex;
     flex-direction: column;
     background-color: var(--bdazzled-blue);
-    /* border: 2px solid var(--pale-cerulean); */
+    padding: 8px
 }
 
 .main-container {

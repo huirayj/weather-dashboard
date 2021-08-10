@@ -94,7 +94,8 @@ const renderWeatherFive = (weatherData) => {
 
     for (let i = 0; i < 5; i++) {
         const icon = weatherNoon[i].weather[0].icon;
-        const nextDay = new Date()
+        const nextDay = new Date();
+        
         nextDay.setDate(currentDate.getDate() + i + 1);
 
         document.querySelector(`#date-${i}`).textContent = nextDay.toDateString();
@@ -132,6 +133,7 @@ const capitalize = (str) => str && str[0].toUpperCase() + str.slice(1);
 
 const clearList = () => {
     cityList = [];
+    localStorage.setItem('cityList', JSON.stringify(cityList));
     ulEle.innerHTML = '';
     clearBtnEle.classList.add('hidden');
     mainEle.classList.add('hidden');
@@ -139,13 +141,14 @@ const clearList = () => {
 }
 
 const renderTodoList = () => {
-    ulEle.innerHTML = '';
     let str = '';
+
+    ulEle.innerHTML = '';
     cityList.forEach(item => {
         str += `<li>${item}</li>`
     });
     ulEle.innerHTML = str;
-    cityList && clearBtnEle.classList.remove('hidden');
+    cityList.length && clearBtnEle.classList.remove('hidden');
 }
 
 window.onload = () => {
